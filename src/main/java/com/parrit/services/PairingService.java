@@ -36,7 +36,7 @@ public class PairingService {
     public List<PairingHistory> savePairing(long projectId) {
         List<PairingHistory> pairingHistories = new ArrayList<>();
 
-        Project project = projectRepository.findOne(projectId);
+        Project project = projectRepository.findById(projectId).orElse(null);
         Timestamp currentTime = currentTimeProvider.getCurrentTime();
 
         for(PairingBoard pairingBoard : project.getPairingBoards()) {
@@ -53,7 +53,7 @@ public class PairingService {
     }
 
     public Project getRecommendation(long projectId) {
-        Project project = projectRepository.findOne(projectId);
+        Project project = projectRepository.findById(projectId).orElse(null);
         List<PairingHistory> pairingHistory = pairingHistoryRepository.findByProject(project);
 
         Project recommendedProject = recommendationService.get(project, pairingHistory);
@@ -63,7 +63,7 @@ public class PairingService {
     }
 
     public List<PairingHistory> getSortedPairingHistory(long projectId) {
-        Project project = projectRepository.findOne(projectId);
+        Project project = projectRepository.findById(projectId).orElse(null);
         return pairingHistoryRepository.findByProjectOrderByTimestampDesc(project);
     }
 }

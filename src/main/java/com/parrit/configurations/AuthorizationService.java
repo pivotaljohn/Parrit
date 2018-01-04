@@ -23,7 +23,7 @@ public class AuthorizationService {
     }
 
     public boolean canAccessProject(User user, long projectId) {
-        Project project = projectRepository.findOne(projectId);
+        Project project = projectRepository.findById(projectId).orElse(null);
         return project != null && canAccessProject(user, project.getName());
     }
 }
